@@ -1,5 +1,6 @@
 <html xmlns:th ="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout/defaultLayout}"
       layout:fragment="content">
 
@@ -10,4 +11,25 @@
         Welcome page!
     </div>
 
+
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+    </div>
+    <div sec:authorize="hasRole('ROLE_BASIC_MEMBER')">
+        This content is only shown to basic member.
+    </div>
+    <div sec:authorize="hasRole('ROLE_OAUTH2_MEMBER')">
+        This content is only shown to oauth2 member.
+    </div>
+
+    <table>
+        <tr>
+            <td>Username</td>
+            <td><span sec:authentication="name"></span></td>
+        </tr>
+        <tr>
+            <td>Authorities</td>
+            <td><span sec:authentication="principal.authorities"></span></td>
+        </tr>
+    </table>
 </html>
