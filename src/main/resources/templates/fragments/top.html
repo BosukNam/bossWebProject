@@ -1,0 +1,28 @@
+<html xmlns:th ="http://www.thymeleaf.org">
+    <th:block th:fragment ="topFragment">
+        <div id="blockHeader">
+            <div id="topLogo">
+                <a th:href="@{/}"><img th:src="@{/images/topLogo.jpg}" alt="Top Logo"></a>
+            </div>
+        </div>
+
+
+        <div id="blockWelcome" class="unauthenticated">
+            <a th:href="@{/login}"><button class="btn btn-primary">Login</button></a>
+        </div>
+
+        <div id="blockAuthWelcome" class="authenticated">
+<!--            <p th:text="|${session.user.name}님 환영합니다!|"></p>-->
+            <a th:href="@{/logout}"><button class="btn btn-primary">Logout</button></a>
+        </div>
+
+        <div id="blockTopMenu">
+            <ul class="topMenu">
+                <li class="menu">
+                    <span><a th:href="@{/user}">user</a></span>
+                </li>
+            </ul>
+        </div>
+
+    </th:block>
+</html>
