@@ -12,7 +12,7 @@ public interface MemberService extends UserDetailsService {
     List<MemberDTO> getSignUpMembers();
     List<MemberDTO> getSignOutMembers();
     Optional<MemberDTO> getMember(Integer seq);
-    MemberDTO getMember(String memberId);
+    Optional<MemberDTO> getMember(String memberId);
     long getMemberCount();
     long getSignUpMemberCount();
     long getSignOutMemberCount();

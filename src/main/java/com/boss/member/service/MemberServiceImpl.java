@@ -50,10 +50,8 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
     }
 
     @Override
-    public MemberDTO getMember(String memberId) {
-        Optional<MemberDTO> memberEntityWrapper = memberRepo.findByMemberId(memberId);
-        MemberDTO memberEntity = memberEntityWrapper.orElse(null);
-        return memberEntity;
+    public Optional<MemberDTO> getMember(String memberId) {
+        return memberRepo.findByMemberId(memberId);
     }
 
     @Override
