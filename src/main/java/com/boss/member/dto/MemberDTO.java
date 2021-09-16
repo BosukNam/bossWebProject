@@ -2,11 +2,13 @@ package com.boss.member.dto;
 
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import javax.persistence.*;
 
 @Data
 @Entity(name="tblmber")
+@Relation(collectionRelation = "members", itemRelation = "member")
 public class MemberDTO  extends RepresentationModel<MemberDTO> {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

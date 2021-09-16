@@ -1,7 +1,10 @@
 package com.boss.member.service;
 
+import com.boss.member.ctrl.MemberRestController;
 import com.boss.member.dto.MemberDTO;
 import com.boss.member.repo.MemberRepo;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -16,6 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service("memberService")
 public class MemberServiceImpl extends DefaultOAuth2UserService implements MemberService {
     private final MemberRepo memberRepo;
@@ -25,33 +31,34 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
     }
 
     @Override
-    public List<MemberDTO> getAllMembers() {
-        return memberRepo.findAll();
+    public CollectionModel<MemberDTO> getAllMembers() {
+        return setWithRelMembers(setSelfRel(memberRepo.findAll()), "allMembers");
     }
 
     @Override
-    public List<MemberDTO> getAllMembers(String name) {
-        return memberRepo.findAllByMemberNameIgnoreCaseContaining(name);
+    public CollectionModel<MemberDTO> getAllMembers(String name) {
+        return setWithRelMembers(setSelfRel(memberRepo.findAllByMemberNameIgnoreCaseContaining(name)),
+                "allMembersByName");
     }
 
     @Override
-    public List<MemberDTO> getSignUpMembers() {
-        return memberRepo.findAllByIsSignOutIsLessThan(1);
+    public CollectionModel<MemberDTO> getSignUpMembers() {
+        return setWithRelMembers(setSelfRel(memberRepo.findAllByIsSignOutIsLessThan(1)), "signUpMembers");
     }
 
     @Override
-    public List<MemberDTO> getSignOutMembers() {
-        return memberRepo.findAllByIsSignOutIsGreaterThan(0);
+    public CollectionModel<MemberDTO> getSignOutMembers() {
+        return setWithRelMembers(setSelfRel(memberRepo.findAllByIsSignOutIsGreaterThan(0)), "signOutMembers");
     }
 
     @Override
     public Optional<MemberDTO> getMember(Integer seq) {
-        return memberRepo.findById(seq);
+        return setSelfRel(memberRepo.findById(seq));
     }
 
     @Override
     public Optional<MemberDTO> getMember(String memberId) {
-        return memberRepo.findByMemberId(memberId);
+        return setSelfRel(memberRepo.findByMemberId(memberId));
     }
 
     @Override
@@ -103,4 +110,28 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
                 .getUserInfoEndpoint().getUserNameAttributeName();
         return new DefaultOAuth2User(authoritySet, attributes, userNameAttributeName);
     }
+
+    private MemberDTO setSelfRel(MemberDTO memberDTO) {
+        return memberDTO.add(linkTo(methodOn(MemberRestController.class).one(memberDTO.getMemberId())).withSelfRel());
+    }
+
+    private Optional<MemberDTO> setSelfRel(Optional<MemberDTO> memberDTO) {
+        if(memberDTO.isPresent()) {
+            memberDTO.get().add(linkTo(methodOn(MemberRestController.class).one(memberDTO.get().getMemberId())).withSelfRel());
+            return memberDTO;
+        }
+        else
+            return null;
+    }
+
+    private List<MemberDTO> setSelfRel(List<MemberDTO> members) {
+        members.stream().forEach(memberDTO -> setSelfRel(memberDTO));
+        return members;
+    }
+
+    private CollectionModel<MemberDTO> setWithRelMembers(List<MemberDTO> members, String withRel) {
+        Link link = linkTo(methodOn(MemberRestController.class).getAllMembers()).withRel(withRel);
+        return CollectionModel.of(members, link);
+    }
+
 }

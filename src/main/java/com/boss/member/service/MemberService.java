@@ -1,16 +1,16 @@
 package com.boss.member.service;
 
 import com.boss.member.dto.MemberDTO;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface MemberService extends UserDetailsService {
-    List<MemberDTO> getAllMembers();
-    List<MemberDTO> getAllMembers(String name);
-    List<MemberDTO> getSignUpMembers();
-    List<MemberDTO> getSignOutMembers();
+    CollectionModel<MemberDTO> getAllMembers();
+    CollectionModel<MemberDTO> getAllMembers(String name);
+    CollectionModel<MemberDTO> getSignUpMembers();
+    CollectionModel<MemberDTO> getSignOutMembers();
     Optional<MemberDTO> getMember(Integer seq);
     Optional<MemberDTO> getMember(String memberId);
     long getMemberCount();
