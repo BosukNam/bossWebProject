@@ -15,7 +15,7 @@
 <body>
 <div class="container">
     <form class="form-signin" method="post" action="/boss/login">
-        <h2 class="form-signin-heading">Login with ID & PW</h2>
+        <h2 class="form-signin-heading" style="text-align: center;">Login Page</h2>
         <p>
             <label for="username" class="sr-only">Username</label>
             <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus>
@@ -101,18 +101,32 @@
             </div>
         </a>
 
+        <a class="btn btn-lg btn-block"
+           href="/boss/oauth2/authorization/facebook"
+           style="display:inline-flex; align-items:center; min-height:30px;
+  background-color:#1877F2; font-family:'Roboto',sans-serif;
+  font-size:14px; color:white; text-decoration:none; margin-top: 12px;
+  padding: 0.1rem; padding-left: 10px;">
+            <div style="margin: 1px; padding-top:2px; min-height:30px;">
+                <img th:src="@{/images/login/facebook_icon_rec.png}" viewBox="0 0 16 16" style="width: 40px;">
+            </div>
+            <div style="margin-left: 5px;" class="btn-lg">
+                Sign in with Facebook
+            </div>
+        </a>
+
     </form>
 
-    <p></p>
+<!--    <p></p>-->
 
-    <h2 class="form-signin-heading">Login with OAuth 2.0</h2>
-    <table class="table table-striped">
+<!--    <h2 class="form-signin-heading">Login with OAuth 2.0</h2>-->
+<!--    <table class="table table-striped">-->
 
-        <tr><td><a href="/boss/oauth2/authorization/github">GitHub</a></td></tr>
-        <tr><td><a href="/boss/oauth2/authorization/naver">Naver</a></td></tr>
-        <tr><td><a href="/boss/oauth2/authorization/kakao">Kakao</a></td></tr>
-        <tr><td><a href="/boss/oauth2/authorization/facebook">Facebook</a></td></tr>
-        <tr><td><a href="/boss/oauth2/authorization/google">Google</a></td></tr>
-    </table>
+<!--        <tr><td><a href="/boss/oauth2/authorization/github">GitHub</a></td></tr>-->
+<!--        <tr><td><a href="/boss/oauth2/authorization/naver">Naver</a></td></tr>-->
+<!--        <tr><td><a href="/boss/oauth2/authorization/kakao">Kakao</a></td></tr>-->
+<!--        <tr><td><a href="/boss/oauth2/authorization/facebook">Facebook</a></td></tr>-->
+<!--        <tr><td><a href="/boss/oauth2/authorization/google">Google</a></td></tr>-->
+<!--    </table>-->
 </div>
 </body></html>
