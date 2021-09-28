@@ -95,6 +95,8 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<MemberDTO> memberEntityWrapper = memberRepo.findByMemberId(username);
         MemberDTO memberEntity = memberEntityWrapper.orElse(null);
+        if(memberEntity==null) throw new UsernameNotFoundException("Username is not founded!");
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_BASIC_MEMBER"));
         return new User(memberEntity.getMemberId(), memberEntity.getMemberPw(), authorities);
