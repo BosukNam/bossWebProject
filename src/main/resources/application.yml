@@ -18,6 +18,10 @@ spring:
       password: Bosak1105!
       connection-timeout: 60000
 
+  data:
+    rest:
+      base-path: /api
+
   # OAuth2
   security:
     oauth2:
