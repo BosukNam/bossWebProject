@@ -1,0 +1,43 @@
+server:
+  port: 9080
+  servlet:
+    context-path: /boss
+
+spring:
+  devtools:
+    livereload:
+      enabled: true
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      pool-name: mysqlDatasource
+      jdbc-url: jdbc:mysql://localhost:3306/inst1
+      username: boss
+      password: Bosak1105!
+      connection-timeout: 60000
+
+  # OAuth2
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: XXXXXXX
+            client-secret: XXXXXXX
+          google:
+            client-id: XXXXXXX
+            client-secret: XXXXXXX
+          facebook:
+            client-id: XXXXXXX
+            client-secret: XXXXXXX
+          github:
+            client-id: XXXXXXX
+            client-secret: XXXXXXX
+          naver:
+            client-id: XXXXXXX
+            client-secret: XXXXXXX
+
+#logging:
+#  level: debug

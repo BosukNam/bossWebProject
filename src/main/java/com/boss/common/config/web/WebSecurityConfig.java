@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 
 @Configuration
 @EnableWebSecurity
-@PropertySource("classpath:application.properties")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private Environment env;
