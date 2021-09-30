@@ -1,7 +1,7 @@
 package com.boss.member.service;
 
 import com.boss.member.ctrl.MemberRestController;
-import com.boss.member.dto.MemberDTO;
+import com.boss.member.dto.Member;
 import com.boss.member.repo.MemberRepo;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -31,33 +31,33 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
     }
 
     @Override
-    public CollectionModel<MemberDTO> getAllMembers() {
+    public CollectionModel<Member> getAllMembers() {
         return setWithRelMembers(setSelfRel(memberRepo.findAll()), "allMembers");
     }
 
     @Override
-    public CollectionModel<MemberDTO> getAllMembers(String name) {
+    public CollectionModel<Member> getAllMembers(String name) {
         return setWithRelMembers(setSelfRel(memberRepo.findAllByMemberNameIgnoreCaseContaining(name)),
                 "allMembersByName");
     }
 
     @Override
-    public CollectionModel<MemberDTO> getSignUpMembers() {
+    public CollectionModel<Member> getSignUpMembers() {
         return setWithRelMembers(setSelfRel(memberRepo.findAllByIsSignOutIsLessThan(1)), "signUpMembers");
     }
 
     @Override
-    public CollectionModel<MemberDTO> getSignOutMembers() {
+    public CollectionModel<Member> getSignOutMembers() {
         return setWithRelMembers(setSelfRel(memberRepo.findAllByIsSignOutIsGreaterThan(0)), "signOutMembers");
     }
 
     @Override
-    public Optional<MemberDTO> getMember(Integer seq) {
+    public Optional<Member> getMember(Integer seq) {
         return setSelfRel(memberRepo.findById(seq));
     }
 
     @Override
-    public Optional<MemberDTO> getMember(String memberId) {
+    public Optional<Member> getMember(String memberId) {
         return setSelfRel(memberRepo.findByMemberId(memberId));
     }
 
@@ -77,24 +77,24 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
     }
 
     @Override
-    public void updateMember(MemberDTO memberDTO) {
-        memberRepo.saveAndFlush(memberDTO);
+    public void updateMember(Member member) {
+        memberRepo.saveAndFlush(member);
     }
 
     @Override
-    public void signUpMember(MemberDTO memberDTO) {
-        memberRepo.saveAndFlush(memberDTO);
+    public void signUpMember(Member member) {
+        memberRepo.saveAndFlush(member);
     }
 
     @Override
-    public void signOutMember(MemberDTO memberDTO) {
-        memberRepo.saveAndFlush(memberDTO);
+    public void signOutMember(Member member) {
+        memberRepo.saveAndFlush(member);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<MemberDTO> memberEntityWrapper = memberRepo.findByMemberId(username);
-        MemberDTO memberEntity = memberEntityWrapper.orElse(null);
+        Optional<Member> memberEntityWrapper = memberRepo.findByMemberId(username);
+        Member memberEntity = memberEntityWrapper.orElse(null);
         if(memberEntity==null) throw new UsernameNotFoundException("Username is not founded!");
 
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -113,25 +113,25 @@ public class MemberServiceImpl extends DefaultOAuth2UserService implements Membe
         return new DefaultOAuth2User(authoritySet, attributes, userNameAttributeName);
     }
 
-    private MemberDTO setSelfRel(MemberDTO memberDTO) {
-        return memberDTO.add(linkTo(methodOn(MemberRestController.class).one(memberDTO.getMemberId())).withSelfRel());
+    private Member setSelfRel(Member member) {
+        return member.add(linkTo(methodOn(MemberRestController.class).one(member.getMemberId())).withSelfRel());
     }
 
-    private Optional<MemberDTO> setSelfRel(Optional<MemberDTO> memberDTO) {
-        if(memberDTO.isPresent()) {
-            memberDTO.get().add(linkTo(methodOn(MemberRestController.class).one(memberDTO.get().getMemberId())).withSelfRel());
-            return memberDTO;
+    private Optional<Member> setSelfRel(Optional<Member> member) {
+        if(member.isPresent()) {
+            member.get().add(linkTo(methodOn(MemberRestController.class).one(member.get().getMemberId())).withSelfRel());
+            return member;
         }
         else
             return null;
     }
 
-    private List<MemberDTO> setSelfRel(List<MemberDTO> members) {
-        members.stream().forEach(memberDTO -> setSelfRel(memberDTO));
+    private List<Member> setSelfRel(List<Member> members) {
+        members.stream().forEach(member -> setSelfRel(member));
         return members;
     }
 
-    private CollectionModel<MemberDTO> setWithRelMembers(List<MemberDTO> members, String withRel) {
+    private CollectionModel<Member> setWithRelMembers(List<Member> members, String withRel) {
         Link link = linkTo(methodOn(MemberRestController.class).getAllMembers()).withRel(withRel);
         return CollectionModel.of(members, link);
     }

@@ -1,6 +1,6 @@
 package com.boss.member.ctrl;
 
-import com.boss.member.dto.MemberDTO;
+import com.boss.member.dto.Member;
 import com.boss.member.service.MemberService;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpEntity;
@@ -22,15 +22,15 @@ public class MemberRestController {
     }
 
     @GetMapping("/members")
-    public HttpEntity<CollectionModel<MemberDTO>> getAllMembers() {
+    public HttpEntity<CollectionModel<Member>> getAllMembers() {
         return new ResponseEntity<>(memberService.getAllMembers(), HttpStatus.OK);
     }
 
     @GetMapping("/member/{id}")
-    public HttpEntity<MemberDTO> one(@PathVariable String id) {
-        Optional<MemberDTO> memberDTO = memberService.getMember(id);
-        if(memberDTO.isPresent()) {
-            return new ResponseEntity<>(memberDTO.get(), HttpStatus.OK);
+    public HttpEntity<Member> one(@PathVariable String id) {
+        Optional<Member> member = memberService.getMember(id);
+        if(member.isPresent()) {
+            return new ResponseEntity<>(member.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
