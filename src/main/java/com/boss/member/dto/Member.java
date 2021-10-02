@@ -1,5 +1,7 @@
 package com.boss.member.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
@@ -17,6 +19,7 @@ public class Member extends RepresentationModel<Member> {
     @Column(name = "mb_id")
     private String memberId;
     @Column(name = "mb_pw")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String memberPw;
     @Column(name = "mb_name")
     private String memberName;
