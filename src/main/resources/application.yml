@@ -43,6 +43,9 @@ spring:
           naver:
             client-id: XXXXXXX
             client-secret: XXXXXXX
+  redis:
+    host: localhost
+    port: 6379
 
 #logging:
 #  level: debug
