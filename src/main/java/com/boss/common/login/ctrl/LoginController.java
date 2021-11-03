@@ -3,6 +3,7 @@ package com.boss.common.login.ctrl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private RedisTemplate redisStringTemplate;
+    private final RedisTemplate redisStringTemplate;
+    private final KafkaTemplate kafkaTemplate;
+
+    public LoginController(RedisTemplate redisStringTemplate, KafkaTemplate kafkaTemplate) {
+        this.redisStringTemplate = redisStringTemplate;
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     @GetMapping("/")
     public String indexPage(Model model) {
@@ -22,6 +28,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage() {
+        kafkaTemplate.send("SAMPLE_TOPIC", "hello, kafka!");
         return "login";
     }
 }

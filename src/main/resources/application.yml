@@ -47,5 +47,10 @@ spring:
     host: localhost
     port: 6379
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: SAMPLE_GROUP
+
 #logging:
 #  level: debug
