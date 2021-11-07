@@ -1,7 +1,39 @@
 <html xmlns:th ="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+    <!--
     <head th:replace="fragments/head :: headFragment">
-<!--        <title layout:title-pattern="$CONTENT_TITLE">Boss Demo web application! :P</title>-->
+        <title layout:title-pattern="$CONTENT_TITLE">Boss Demo web application! :P</title>
+    </head>
+    -->
+
+    <head>
+        <meta name ="description" content ="Directing Template">
+        <meta name ="keywords" content ="Directing, unica, creative, html">
+        <meta name ="viewport" content ="width=device-width, initial-scale=1.0">
+
+        <!-- 공통 css -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        <!--        <link rel ="stylesheet" href ="css파일 경로" type ="text/css">-->
+
+        <!-- Js Plugins -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script>
+            $.get("/boss/user", function(data) {
+                if(data!=null) {
+                    $("#user").html(data);
+                    $(".unauthenticated").hide();
+                    $(".authenticated").show();
+                }
+            });
+        </script>
+        <!--    <script src ="js파일 경로"></script>-->
+
+        <!-- default_layout을 사용하는 페이지에서 단독으로 넣을 css 공간 -->
+        <th:block layout:fragment ="css"></th:block>
+
+        <!-- default_layout을 사용하는 페이지에서 단독으로 넣을 script 공간 -->
+        <th:block layout:fragment ="script"></th:block>
     </head>
 
     <body>
