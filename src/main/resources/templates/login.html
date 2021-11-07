@@ -26,6 +26,7 @@
         </p>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <a class="btn btn-lg btn-secondary btn-block" id="signUpBtn" th:href="@{/signUp}">Sign up</a>
 
         <p>
             <div class="error"

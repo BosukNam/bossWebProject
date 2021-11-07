@@ -28,7 +28,7 @@ public class LoginController {
 
     @GetMapping("/login")
     public String loginPage() {
-        kafkaTemplate.send("SAMPLE_TOPIC", "hello, kafka!");
+//        kafkaTemplate.send("SAMPLE_TOPIC", "hello, kafka!");
         return "login";
     }
 }
