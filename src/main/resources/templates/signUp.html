@@ -14,12 +14,27 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script>
         function isUsernameExists() {
-            var username = $('#username').val();
-            // TODO username null empty check
-            //  if(username)
-            $.get("/boss/signUp/isUsernameExists/"+username, function(data) {
-                alert(data);
-            });
+            var userId = $('#userId').val();
+            if(userId!=null && userId.length>0) {
+                $.get("/boss/signUp/isUsernameExists/"+userId, function(data) {
+                    alert(data);
+                });
+            } else {
+                alert('User ID is not valid!');
+            }
+        }
+
+        function isUserPwEquals() {
+            var userPw = $('#userPw').val();
+            var userPwConfirm = $('#userPwConfirm').val();
+
+            if(userPw==userPwConfirm) {
+                $('#pwEqualAlert').show();
+                $('#pwNotEqualAlert').hide();
+            } else {
+                $('#pwEqualAlert').hide();
+                $('#pwNotEqualAlert').show();
+            }
         }
 
     </script>
@@ -28,11 +43,44 @@
 <body>
 <div class="container">
     <h2 class="form-signin-heading" style="text-align: center;">Sign Up Page</h2>
+
+    <!-- User ID -->
     <p>
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required autofocus style="display: inline; width: 100px" >
+        <label for="userId">ID</label>
+        <input type="text" id="userId" name="userId" class="form-control" placeholder="User ID"
+               required autofocus style="display: inline; width: 200px" >
         <button class="btn btn-lg btn-secondary btn-block" id="isUsernameExistsBtn"
                 style="display: inline; width: 200px" th:onclick="isUsernameExists()">isUsernameExists</button>
+    </p>
+
+    <!-- User Password -->
+    <p>
+        <label for="userPw">Password</label>
+        <input type="password" id="userPw" name="userPw" class="form-control" placeholder="User Password"
+               required autofocus style="display: inline; width: 200px"
+               onfocusout="isUserPwEquals()">
+    </p>
+    <p>
+        <label for="userPwConfirm">Confirm Password</label>
+        <input type="password" id="userPwConfirm" name="userPwConfirm" class="form-control" placeholder="Confirm User Password"
+               required autofocus style="display: inline; width: 200px"
+               onfocusout="isUserPwEquals()">
+        <!-- TODO : 암호 정규식 사용하여 유효성 체크 추가 -->
+        <div id="pwEqualAlert" class="alert alert-success" role="alert" style="display: none">
+            Valid Password! :)
+        </div>
+        <div id="pwNotEqualAlert" class="alert alert-danger" role="alert" style="display: none">
+            Password is not matching! :(
+        </div>
+    </p>
+
+
+    <!-- User Address -->
+    <p>
+        <!-- TODO : daum 주소검색 넣어보기 -->
+        <label for="userAddr">Address</label>
+        <input type="text" id="userAddr" name="userAddr" class="form-control" placeholder="User Address"
+               autofocus style="display: inline; width: 100%" >
     </p>
 </div>
 </body></html>
