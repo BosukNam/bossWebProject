@@ -114,7 +114,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/login", "/login/**", "/logout", "/signUp", "/signUp/**").permitAll()
+                .antMatchers("/login", "/login/**", "/logout", "/signUp", "/signUp/**", "/index", "/timetable").permitAll()
                 .antMatchers("/basic-auth").hasRole("BASIC_MEMBER")
                 .antMatchers("/oauth2").hasRole("OAUTH2_MEMBER")
                 .anyRequest().authenticated()
